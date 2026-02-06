@@ -24,24 +24,29 @@ public class RideLockHandler {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onCameraSetup(EntityViewRenderEvent.CameraSetup event) {
+    	Minecraft mc = Minecraft.getMinecraft();
+        // Keybind enable/disable logic
         while (RideLock.toggleKey.isPressed()) {
             isEnabled = !isEnabled;
+        	String keystatus = isEnabled ? "§aEnabled" : "§cDisabled";
+            String keytext = "§7Ride Lock: " + keystatus;
+            net.minecraft.util.text.ITextComponent message = new net.minecraft.util.text.TextComponentString(keytext);
+            mc.player.sendStatusMessage(message, true);
         }
-
+        // Safety Check to stop if player doesn't yet exist
+        if (mc.player == null || mc.isGamePaused()) return;
+        
         if (!isEnabled) {
             wasRiding = false;
             return;
         }
-
-        Minecraft mc = Minecraft.getMinecraft();
-        if (mc.player == null || mc.isGamePaused()) return;
 
         Entity vehicle = mc.player.getRidingEntity();
         if (vehicle == null) {
             wasRiding = false;
             return;
         }
-
+        // Tracking ride vehicle in space
         long currentTime = System.currentTimeMillis();
         float deltaTime = (currentTime - lastTime) / 1000.0f;
         lastTime = currentTime;
@@ -55,7 +60,7 @@ public class RideLockHandler {
         double dy = curY - lastY;
         double dz = curZ - lastZ;
         double horizontalDistSq = dx * dx + dz * dz;
-
+        // determine camera to match vehicle movement
         float currentYaw = lastYaw;
         float currentPitch = 0;
 
@@ -70,13 +75,13 @@ public class RideLockHandler {
             wasRiding = true;
             return;
         }
-
+        // Smooth the view out to mitigate jitters
         float lerpFactor = MathHelper.clamp(deltaTime * LERP_SENSITIVITY, 0.0f, 1.0f);
         float yawDelta = MathHelper.wrapDegrees(currentYaw - lastYaw);
-        
+        // Final Camera Movement
         smoothedYawDelta = smoothedYawDelta + (yawDelta - smoothedYawDelta) * lerpFactor;
         smoothedPitch = smoothedPitch + (currentPitch - smoothedPitch) * lerpFactor;
-
+        
         if (Math.abs(smoothedYawDelta) < 15.0f && Math.abs(smoothedYawDelta) > 0.001f) {
             mc.player.rotationYaw = MathHelper.wrapDegrees(mc.player.rotationYaw + smoothedYawDelta);
             mc.player.prevRotationYaw = mc.player.rotationYaw - smoothedYawDelta;
