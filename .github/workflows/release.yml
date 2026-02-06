@@ -2,8 +2,12 @@ name: Build and Release
 on:
   push:
     tags:
-      - 'v*' # This triggers when you push a tag like v1.0, v1.1, etc.
-
+      - 'v*'
+  workflow_dispatch:
+  
+permissions:
+  contents: write
+  
 jobs:
   build:
     runs-on: ubuntu-latest
