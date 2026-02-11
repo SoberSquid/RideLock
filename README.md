@@ -9,10 +9,8 @@ When you're sitting in a moving vehicle (minecarts, trains, etc.), RideLock calc
 
 **Features**
 
-    Smooth LERPing: Uses linear interpolation to ensure the camera transitions feel natural, not rigid.
-
-    Toggleable: Hit F9 (default) to turn the lock on or off instantly.
-
-    Client-Side Only: This does not need to be installed on the server.
+* Smooth LERPing: Uses linear interpolation to ensure the camera transitions feel natural, not rigid.
+* Toggleable: Hit F9 (default) to turn the lock on or off instantly.
+* Client-Side Only: This does not need to be installed on the server.
 
 Special thanks to Bergerhealer for the inspiration via SmoothCoasters (https://github.com/bergerhealer/SmoothCoasters/)
