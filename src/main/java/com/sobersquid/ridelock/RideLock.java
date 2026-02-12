@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.lwjgl.input.Keyboard;
 
-@Mod(modid = "ridelock", name = "Ride Lock", version = "1.0.1")
+@Mod(modid = "ridelock", name = "Ride Lock", version = "1.0.2")
 public class RideLock {
     public static KeyBinding toggleKey;
     @Mod.EventHandler

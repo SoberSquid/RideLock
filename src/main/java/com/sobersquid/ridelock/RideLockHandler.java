@@ -72,6 +72,8 @@ public class RideLockHandler {
         if (!wasRiding) {
             lastX = curX; lastY = curY; lastZ = curZ;
             lastYaw = currentYaw;
+            smoothedYawDelta = 0;
+            smoothedPitch = 0;
             wasRiding = true;
             return;
         }
@@ -82,7 +84,7 @@ public class RideLockHandler {
         smoothedYawDelta = smoothedYawDelta + (yawDelta - smoothedYawDelta) * lerpFactor;
         smoothedPitch = smoothedPitch + (currentPitch - smoothedPitch) * lerpFactor;
         
-        if (Math.abs(smoothedYawDelta) < 15.0f && Math.abs(smoothedYawDelta) > 0.001f) {
+        if (Math.abs(smoothedYawDelta) > 0.001f) {
             mc.player.rotationYaw = MathHelper.wrapDegrees(mc.player.rotationYaw + smoothedYawDelta);
             mc.player.prevRotationYaw = mc.player.rotationYaw - smoothedYawDelta;
         }
